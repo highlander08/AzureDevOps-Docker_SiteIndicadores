@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)' #assumi a versao da imagem docker com um numero sequencial
+  tag: 123  #assumi a versao da imagem docker com um numero sequencial
 
 stages:
 - stage: Build
