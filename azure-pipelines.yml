@@ -9,24 +9,62 @@ resources:
 - repo: self
 
 variables:
-  tag: refs/tags/taghigh1  #assumi a versao da imagem docker com um numero sequencial
+  buildConfiguration: 'Build'
+  imageName: 'devops:latest'  #assumi a versao da imagem docker com um numero sequencial
+  
+steps:
+- script: docker build --no-cache -f Dockerfile -t $(dockerId)/$(imageName) .
+  displayName: 'Building Docker Image'
 
-stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest #imagem usada
-    steps:
-    - task: Docker@2
-      displayName: Build e Push no Docker Hub do Azure na Highlander
-      inputs:
-        containerRegistry: 'high-dockerhub'
-        repository: 'highlanderhr7/novaimagemcriadahigh'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          $(tag)
-          latest
+- script: |
+    docker login -u $(dockerId) -p $(dockerPassword)
+    docker push $(dockerId)/$(imageName)
+  displayName: 'Sending Image to Docker Hub'
+
+# stages:
+# - stage: Build
+#   displayName: Build image
+#   jobs:
+#   - job: Build
+#     displayName: Build
+#     pool:
+#       vmImage: ubuntu-latest #imagem usada
+#     steps:
+#     - task: Docker@2
+#       displayName: Build e Push no Docker Hub do Azure na Highlander
+#       inputs:
+#         containerRegistry: 'high-dockerhub'
+#         repository: 'highlanderhr7/novaimagemcriadahigh'
+#         command: 'buildAndPush'
+#         Dockerfile: '**/Dockerfile'
+#         tags: |
+#           $(tag)
+#           latest
+#           ____
+# pool:
+#   vmImage: 'Ubuntu 16.04'
+
+# variables:
+#   buildConfiguration: 'Release'
+#   imageName: 'devops:latest'
+
+# steps:
+# - script: dotnet restore
+#   displayName: 'Restoring Packages'
+
+# - script: dotnet build --configuration $(buildConfiguration)
+#   displayName: 'Building Project'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Testing'
+#   inputs:
+#     command: test
+#     projects: '**/*Tests/*.csproj'
+
+# - script: docker build --no-cache -f Dockerfile -t $(dockerId)/$(imageName) .
+#   displayName: 'Building Docker Image'
+
+# - script: |
+#     docker login -u $(dockerId) -p $(dockerPassword)
+#     docker push $(dockerId)/$(imageName)
+#   displayName: 'Sending Image to Docker Hub'
