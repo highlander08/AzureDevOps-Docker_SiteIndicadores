@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 variables:
-  tag: 123  #assumi a versao da imagem docker com um numero sequencial
+  tag: efs/tags/<tagname>‎  #assumi a versao da imagem docker com um numero sequencial
 
 stages:
 - stage: Build
