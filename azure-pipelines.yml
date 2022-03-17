@@ -24,11 +24,9 @@ stages:
       displayName: Build e Push no Docker Hub do Azure na Highlander
       inputs:
         containerRegistry: 'high-dockerhub'
-        repository: 'highlanderhr7/novaimagemcriada'
+        repository: 'highlanderhr7/novaimagemcriada:latest'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
-          latest 
-          
-          #latest -> gerar tag com um tipo de sequencial no final
+          latest
