@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 variables:
-  tag: efs/tags/<tagname>‎  #assumi a versao da imagem docker com um numero sequencial
+  tag: refs/tags/taghigh1  #assumi a versao da imagem docker com um numero sequencial
 
 stages:
 - stage: Build
@@ -24,7 +24,7 @@ stages:
       displayName: Build e Push no Docker Hub do Azure na Highlander
       inputs:
         containerRegistry: 'high-dockerhub'
-        repository: 'highlanderhr7/novaimagemcriada:latest'
+        repository: 'highlanderhr7/novaimagemcriadahigh'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
